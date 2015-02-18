@@ -1,0 +1,10 @@
+---
+security_group: staging-edvisor
+zone: eu-west-1a
+subnet: subnet-91e22bc8
+instance_type: t2.micro
+env: staging
+
+deploy_user: deploy
+nvm_version: v0.17.3
+nvm_node_version: "v0.10.35"

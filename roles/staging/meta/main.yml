@@ -1,0 +1,9 @@
+dependencies:
+  - { role: common }
+  - { role: mivok0.users }
+  - {
+      role: leonidas.nvm,
+      user: "{{deploy_user}}",
+      version: "{{nvm_version}}",
+      node_version: "{{nvm_node_version}}"
+    }

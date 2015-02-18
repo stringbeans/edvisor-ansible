@@ -1,0 +1,4 @@
+# This tasks will run on staging role
+# MySql
+- name: Install MySQL
+  apt: name=mysql-client state=present update_cache=yes

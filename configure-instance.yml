@@ -1,0 +1,14 @@
+---
+# Provisions a running instance as the role supplied by extra-vars.
+#
+# A running EC2 instance can be provisioned directly with, e.g.:
+# ansible-playbook provision.yml -i plugins/inventory/ec2.py --extra-vars "role=web env=staging user=admin hosts=tag_Name_web"
+- name: Configure staging instance(s) as a {{role}}
+  hosts: "{{hosts}}"
+  sudo: yes # On EC2 nodes, this is automatically passwordless.
+  user: admin
+  gather_facts: True
+  vars_files:
+    - "group_vars/{{env}}/users.yml"
+  roles:
+    - "{{env}}"

@@ -1,0 +1,48 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+# NTP
+  - name: Install ntp
+    apt: name=ntp state=present update_cache=yes
+    tags: ntp
+
+  - name: Configure ntp file
+    template: src=ntp.conf.j2 dest=/etc/ntp.conf
+    tags: ntp
+    notify: restart ntp
+
+  - name: Start the ntp service
+    service: name=ntp state=started enabled=yes
+    tags: ntp
+
+#If you're doing lots of packages at once, you can use with_items, and provide the apt: module with pkg={{ item }} and you get something like a foreach in [list] effect.
+
+  - name: install default packages
+    apt: pkg={{ item }} state=installed
+    with_items:
+      - aptitude
+      - gcc
+      - g++
+      - make
+      - vim
+      - supervisor
+      - python-dev
+      - htop
+      - screen
+      - python-pycurl
+      - python-lxml
+      - git-core
+      - libncurses5-dev
+      - build-essential
+      - unzip
+      - curl
+      - libcurl3
+      - libssl1.0.0
+      - libsqlite3-0
+      - libsqlite3-dev
+
+# This deploys a sane (reasonably so) config for supervisord
+  - name: Deploy supervisord.conf
+    template: src=supervisord.conf.j2 dest=/etc/supervisor/supervisord.conf owner=root group=root mode=644
+
+  - include: ./dotdeb.yml
