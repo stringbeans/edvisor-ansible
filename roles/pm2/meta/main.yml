@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: playlist
+  company: Playlist
+  description: Installs pm2
+  min_ansible_version: 1.6
+  license: MIT
+  platforms:
+    - name: Debian
+      versions:
+        - All
+  categories:
+    - web
+
+dependencies:
+  - leonidas.nvm

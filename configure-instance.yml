@@ -9,6 +9,7 @@
   user: admin
   gather_facts: True
   vars_files:
+    - "group_vars/{{env}}/settings.yml"
     - "group_vars/{{env}}/users.yml"
   roles:
     - "{{env}}"

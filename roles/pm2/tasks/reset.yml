@@ -1,0 +1,4 @@
+---
+- name: delete all apps
+  command: pm2 delete all
+  ignore_errors: yes

@@ -1,9 +1,20 @@
+---
 dependencies:
   - { role: common }
   - { role: mivok0.users }
+  - { role: leonidas.nvm,
+      nvm: {
+        user: "{{edvisor_deploy_user}}",
+        version: "{{edvisor_nvm_version}}",
+        node_version: "{{edvisor_nvm_node_version}}",
+        }
+    }
   - {
-      role: leonidas.nvm,
-      user: "{{deploy_user}}",
-      version: "{{nvm_version}}",
-      node_version: "{{nvm_node_version}}"
+      role: pm2,
+      user: "{{edvisor_deploy_user}}",
+      pm2_apps: "{{edvisor_pm2_apps}}",
+      pm2_startup: "{{edvisor_pm2_startup}}",
+      pm2_service_enabled: "{{edvisor_pm2_service_enabled}}",
+      pm2_service_state: "{{edvisor_pm2_service_state}}",
+      pm2_version: "{{edvisor_pm2_version}}"
     }

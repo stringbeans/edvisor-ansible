@@ -1,0 +1,9 @@
+---
+- name: Install pm2 {{ pm2_version }}
+  command: su - {{user}} -c "npm install -g pm2@{{ pm2_version }}"
+  register: pm2_installed
+  notify: restart pm2
+
+- name: install startup script
+  command: sudo env PATH=$PATH:/home/{{user}}/.nvm/{{edvisor_nvm_node_version}}/bin pm2 startup {{pm2_startup}} -u {{user}}
+  when: pm2_installed.changed

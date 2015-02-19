@@ -1,0 +1,7 @@
+---
+user: deploy
+pm2_apps: []
+pm2_startup: ubuntu
+pm2_service_enabled: yes
+pm2_service_state: started
+pm2_version: latest

@@ -5,6 +5,16 @@ subnet: subnet-91e22bc8
 instance_type: t2.micro
 env: staging
 
-deploy_user: deploy
-nvm_version: v0.17.3
-nvm_node_version: "v0.10.35"
+edvisor_deploy_user: deploy
+
+# NodeJs
+edvisor_nvm_version: v0.17.3
+edvisor_nvm_node_version: "v0.10.35"
+
+# PM2
+edvisor_pm2_apps:
+  - /opt/apps/web/current/pm2.json
+edvisor_pm2_startup: ubuntu
+edvisor_pm2_service_enabled: yes
+edvisor_pm2_service_state: started
+edvisor_pm2_version: 0.12.5

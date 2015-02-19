@@ -1,0 +1,3 @@
+---
+- name: restart pm2
+  service: name=pm2-init.sh state=restarted
