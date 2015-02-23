@@ -1,0 +1,30 @@
+{
+  "mysqldb": {
+    "host": "{{ vault_edvisor_db_host }}",
+    "port": 3306,
+    "username": "{{ vault_edvisor_db_username }}",
+    "password": "{{ vault_edvisor_db_password }}",
+    "database": "{{ vault_edvisor_db_name }}",
+    "name": "mysqldb",
+    "connector": "mysql"
+  },
+  "email": {
+    "name": "email",
+    "connector": "mail",
+    "transports": [{
+     "type": "sendgrid",
+     "auth": {
+       "api_user": "{{ vault_edvisor_email_sendgrid_api_user }}",
+       "api_key": "{{ vault_edvisor_email_sendgrid_api_key }}"
+     }
+    }]
+  },
+  "openexchange": {
+    "name": "openexchange",
+    "appId": "{{ vault_edvisor_openxchange_app_id }}"
+  },
+  "stripe": {
+    "name": "stripe",
+    "apiKey": "{{ vault_edvisor_stripe_api_key }}"
+  }
+}

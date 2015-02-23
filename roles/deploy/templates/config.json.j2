@@ -1,0 +1,48 @@
+{
+  "port": {{ edvisor_app_port }},
+  "url": "{{ edvisor_app_url }}",
+  "s3uploader": {
+    "bucket": "{{ edvisor_aws_s3_bucket }}",
+    "imageOptions": {
+      "awsBucketUrl": "{{ edvisor_aws_s3_images_bucket_url }}",
+      "awsBucketRegion": "{{ edvisor_aws_s3_images_bucket_region }}",
+      "awsBucketPath": "{{ edvisor_aws_s3_images_bucket_path }}",
+      "awsBucketAcl": "public-read",
+      "versions": [{
+        "original": true
+      },{
+        "type": "large",
+        "suffix": "-large",
+        "quality": 80,
+        "maxHeight": 500,
+        "maxWidth": 500
+      },{
+        "type": "medium",
+        "suffix": "-medium",
+        "maxHeight": 200,
+        "maxWidth": 200
+      },{
+        "type": "small",
+        "suffix": "-small",
+        "maxHeight": 50,
+        "maxWidth": 50
+      }]
+    },
+    "fileOptions": {
+      "awsBucketUrl": "{{ edvisor_aws_s3_files_bucket_url }}",
+      "awsBucketRegion": {{ edvisor_aws_s3_files_bucket_region }}",
+      "awsBucketPath": "{{ edvisor_aws_s3_files_bucket_path }}",
+      "awsBucketAcl": "public-read"
+    }
+  },
+  "language": {
+    "defaultLanguageId": 1
+  },
+  "email": {
+    "service": "{{ edvisor_email_service }}",
+    "emailFrom": "{{ edvisor_email_from }}"
+  },
+  "date": {
+    "exportDateFormat": "YYYY-MM-DD"
+  }
+}

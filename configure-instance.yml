@@ -9,6 +9,8 @@
   user: admin
   gather_facts: True
   vars_files:
+    - "group_vars/{{env}}/encrypted/ec2.yml"
+    - "group_vars/{{env}}/encrypted/datasources.json.yml"
     - "group_vars/{{env}}/settings.yml"
     - "group_vars/{{env}}/users.yml"
   roles:

@@ -9,12 +9,13 @@ dependencies:
         node_version: "{{edvisor_nvm_node_version}}",
         }
     }
+  - { role: deploy }
   - {
       role: pm2,
-      user: "{{edvisor_deploy_user}}",
-      pm2_apps: "{{edvisor_pm2_apps}}",
-      pm2_startup: "{{edvisor_pm2_startup}}",
-      pm2_service_enabled: "{{edvisor_pm2_service_enabled}}",
-      pm2_service_state: "{{edvisor_pm2_service_state}}",
-      pm2_version: "{{edvisor_pm2_version}}"
+      user: "{{ edvisor_deploy_user }}",
+      pm2_apps: "{{ edvisor_pm2_apps }}",
+      pm2_startup: "{{ edvisor_pm2_startup }}",
+      pm2_service_enabled: "{{ edvisor_pm2_service_enabled }}",
+      pm2_service_state: "{{ edvisor_pm2_service_state }}",
+      pm2_version: "{{ edvisor_pm2_version }}"
     }

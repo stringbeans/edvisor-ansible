@@ -1,0 +1,21 @@
+---
+
+- name: Capistrano | Create shared directory
+  file: path={{ edvisor_project_root_shared }} state=directory owner=deploy group=deploy force=no
+  sudo: yes
+
+- name: Capistrano | Create config directory
+  file: path={{ edvisor_project_root_shared_server }} state=directory owner=deploy group=deploy force=no
+  sudo: yes
+
+- name: Capistrano | create log directory in shared directory
+  file: path={{ edvisor_project_root_shared_log }} state=directory owner={{ edvisor_deploy_user }} group={{ edvisor_deploy_group }} mode=0755
+
+- name: Capistrano | copy config.staging.json to server in shared config directory
+  template: src=config.json.j2 dest={{ edvisor_project_root_shared_server }}/config.json owner={{ edvisor_deploy_user }} /config.json group={{ edvisor_deploy_group }} mode=0755
+
+- name: Capistrano | copy datasources.staging.json to server in shared config directory
+  template: src=datasources.json.j2 dest={{ edvisor_project_root_shared_server }}/datasources.json owner={{ edvisor_deploy_user }} group={{ edvisor_deploy_group }} mode=0755
+
+- name: Capistrano | copy pm2.json to server in shared config directory
+  template: src=pm2.json.j2 dest={{ edvisor_project_root_shared_server }}/pm2.json owner={{ edvisor_deploy_user }} group={{ edvisor_deploy_group }} mode=0755

@@ -4,17 +4,47 @@ zone: eu-west-1a
 subnet: subnet-91e22bc8
 instance_type: t2.micro
 env: staging
+deploy_env: "{{ security_group }}"
 
 edvisor_deploy_user: deploy
+edvisor_deploy_group: deploy
 
 # NodeJs
 edvisor_nvm_version: v0.17.3
 edvisor_nvm_node_version: "v0.10.35"
 
+# deploy project
+edvisor_project_root: "/opt/apps/web/api.edvisor.io"
+edvisor_project_root_current: "{{ edvisor_project_root }}/current"
+edvisor_project_root_shared: "{{ edvisor_project_root }}/shared"
+edvisor_project_root_shared_server: "{{ edvisor_project_root_shared }}/server"
+edvisor_project_root_shared_log: "{{ edvisor_project_root_shared }}/log"
+
 # PM2
 edvisor_pm2_apps:
-  - /opt/apps/web/current/pm2.json
+  - "{{ edvisor_project_root }}/current/pm2.json"
 edvisor_pm2_startup: ubuntu
 edvisor_pm2_service_enabled: yes
 edvisor_pm2_service_state: started
 edvisor_pm2_version: 0.12.5
+
+# APP
+edvisor_app_port: 3000
+edvisor_app_url: "http://localhost:{{ edvisor_app_port }}/"
+
+# AWS S3
+edvisor_aws_s3_bucket: "edvisorio-dev"
+
+# AWS S3 Images
+edvisor_aws_s3_images_bucket_url: "https://s3-us-west-2.amazonaws.com/edvisorio-dev/"
+edvisor_aws_s3_images_bucket_region: "us-west-2"
+edvisor_aws_s3_images_bucket_path: "images/"
+
+# AWS S3 Files
+edvisor_aws_s3_files_bucket_url: "{{ edvisor_aws_s3_images_bucket_url }}"
+edvisor_aws_s3_files_bucket_region: "{{ edvisor_aws_s3_images_bucket_region }}"
+edvisor_aws_s3_files_bucket_path: "files/"
+
+# Email
+edvisor_email_service: "Edvisor.Io"
+edvisor_email_from: "info@edvisor.io"
