@@ -9,13 +9,136 @@
   sudo: yes
 
 - name: Capistrano | create log directory in shared directory
-  file: path={{ edvisor_project_root_shared_log }} state=directory owner={{ edvisor_deploy_user }} group={{ edvisor_deploy_group }} mode=0755
+  file: >
+        path={{ edvisor_project_root_shared_log }}
+        state=directory
+        owner={{ edvisor_deploy_user }}
+        group={{ edvisor_deploy_group }}
+        mode=0755
 
 - name: Capistrano | copy config.staging.json to server in shared config directory
-  template: src=config.json.j2 dest={{ edvisor_project_root_shared_server }}/config.json owner={{ edvisor_deploy_user }} /config.json group={{ edvisor_deploy_group }} mode=0755
+  template: >
+        src=config.json.j2
+        dest={{ edvisor_project_root_shared_server }}/config.json
+        owner={{ edvisor_deploy_user }} /config.json
+        group={{ edvisor_deploy_group }}
+        mode=0755
 
 - name: Capistrano | copy datasources.staging.json to server in shared config directory
-  template: src=datasources.json.j2 dest={{ edvisor_project_root_shared_server }}/datasources.json owner={{ edvisor_deploy_user }} group={{ edvisor_deploy_group }} mode=0755
+  template: >
+        src=datasources.json.j2
+        dest={{ edvisor_project_root_shared_server }}/datasources.json
+        owner={{ edvisor_deploy_user }}
+        group={{ edvisor_deploy_group }}
+        mode=0755
 
 - name: Capistrano | copy pm2.json to server in shared config directory
-  template: src=pm2.json.j2 dest={{ edvisor_project_root_shared_server }}/pm2.json owner={{ edvisor_deploy_user }} group={{ edvisor_deploy_group }} mode=0755
+  template: >
+        src=pm2.json.j2
+        dest={{ edvisor_project_root_shared_server }}/pm2.json
+        owner={{ edvisor_deploy_user }}
+        group={{ edvisor_deploy_group }}
+        mode=0755
+
+- name: Capistrano | release timestamp
+  command: date +%Y%m%d%H%M%S
+  register: timestamp
+
+- name: Capistrano | Name release directory
+  command: echo "{{ edvisor_project_root_releases }}/{{ timestamp.stdout }}"
+  register: release_path
+
+- name: Capistrano | Create release directory
+  file: >
+        state=directory
+        owner={{ edvisor_deploy_user }}
+        group={{ edvisor_deploy_group }}
+        recurse=yes
+        path={{ release_path.stdout }}
+
+- name: Capistrano | checkout git repo into release directory
+  git: >
+        repo={{ edvisor_project_git_repo }}
+        dest={{ release_path.stdout }}
+        remote={{ edvisor_project_git_repo_remote }}
+        version={{ edvisor_project_git_repo_version }}
+        accept_hostkey=yes
+
+- name: Capistrano | Fix directory permissions to deploy user
+  file: >
+        path={{ release_path.stdout }}
+        owner={{ edvisor_deploy_user }}
+        group={{ edvisor_deploy_group }}
+        mode=755
+        state=directory
+        recurse=yes
+
+- name: Capistrano | remove releases config.json
+  file: >
+        path={{ release_path.stdout }}/server/config.json
+        state=absent
+
+- name: Capistrano | remove releases config.json
+  file: >
+        path={{ release_path.stdout }}/server/datasources.json
+        state=absent
+
+- name: Capistrano | create symlink for config.json to current/server release directory
+  file: >
+        src={{ edvisor_project_root_shared_server }}/config.json
+        path={{ release_path.stdout }}/server/config.json
+        owner={{ edvisor_deploy_user }}
+        group={{ edvisor_deploy_group }}
+        mode=0755
+        state=link
+
+- name: Capistrano | create symlink for datasources.json to current/server release directory
+  file: >
+        src={{ edvisor_project_root_shared_server }}/datasources.json
+        path={{ release_path.stdout }}/server/datasources.json
+        owner={{ edvisor_deploy_user }}
+        group={{ edvisor_deploy_group }}
+        mode=0755
+        state=link
+
+- name: Capistrano | create symlink for pm2.json to current release directory
+  file: >
+        src={{ edvisor_project_root_shared_server }}/pm2.json
+        path={{ release_path.stdout }}/pm2.json
+        owner={{ edvisor_deploy_user }}
+        group={{ edvisor_deploy_group }}
+        mode=0755
+        state=link
+
+- name: Capistrano | copye package.json to shared directory
+  shell: rsync -ci {{ release_path.stdout }}/package.json {{ edvisor_project_root_shared }}/package.json
+
+- name: Capistrano | Install packages based on package.json using the npm installed
+  npm: >
+        path={{ edvisor_project_root_shared }}
+        state=present
+        executable={{ edvisor_npm_executable }}
+
+- name: Capistrano | Fix directory permissions to deploy user
+  file: >
+        path={{ edvisor_project_root_shared }}/node_modules
+        owner={{ edvisor_deploy_user }}
+        group={{ edvisor_deploy_group }}
+        mode=755
+        state=directory
+        recurse=yes
+
+- name: Capistrano | Setup node_modules symlink
+  file: >
+        path={{ release_path.stdout }}/node_modules
+        src={{ edvisor_project_root_shared }}/node_modules
+        owner={{ edvisor_deploy_user }}
+        group={{ edvisor_deploy_group }}
+        state=link
+        force=yes
+
+- name: Capistrano | Update app version
+  file: >
+        state=link
+        path={{ edvisor_project_root_current }}
+        src={{ release_path.stdout }}

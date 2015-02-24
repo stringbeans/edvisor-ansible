@@ -13,12 +13,17 @@ edvisor_deploy_group: deploy
 edvisor_nvm_version: v0.17.3
 edvisor_nvm_node_version: "v0.10.35"
 
-# deploy project
+# Deploy project
 edvisor_project_root: "/opt/apps/web/api.edvisor.io"
 edvisor_project_root_current: "{{ edvisor_project_root }}/current"
+edvisor_project_root_releases: "{{ edvisor_project_root }}/releases"
 edvisor_project_root_shared: "{{ edvisor_project_root }}/shared"
 edvisor_project_root_shared_server: "{{ edvisor_project_root_shared }}/server"
 edvisor_project_root_shared_log: "{{ edvisor_project_root_shared }}/log"
+edvisor_project_git_repo: "git@github.com:stringbeans/jsedvisor.git"
+edvisor_project_git_repo_remote: "origin"
+edvisor_project_git_repo_version: "development"
+edvisor_npm_executable: "/home/{{edvisor_deploy_user}}/.nvm/current/bin/npm"
 
 # PM2
 edvisor_pm2_apps:
