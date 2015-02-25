@@ -2,13 +2,12 @@
 Install Roles
 ============================
 Please take a look at: https://galaxy.ansible.com
-	
-Users: ansible-galaxy install mivok0.users
-	Github: https://github.com/mivok/ansible-users
-NVM+NodeJs: ansible-galaxy install leonidas.nvm
-	Github: https://github.com/leonidas/ansible-nvm
-	
 
+The required roles could be install with:
+	
+		ansible-galaxy install -r requirements.yml
+
+	
 Creation of EC2 Instance
 ============================
 
