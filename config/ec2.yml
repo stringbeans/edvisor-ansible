@@ -1,0 +1,6 @@
+---
+regions:
+ - 'eu-west-1'
+project_tag: "Project"
+roles_tag: "Roles"
+stages_tag: "Stages"

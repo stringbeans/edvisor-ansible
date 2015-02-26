@@ -18,8 +18,10 @@
       group: "{{ security_group }}"
       wait: true
       instance_tags:
-        Name: "{{ inventory_hostname }}"
-        env: "{{ env }}"
+        Name: "{{ env }}-{{ role }}"
+        Roles: "{{ role }}"
+        Project: "{{ project }}"
+        Stages: "{{ env }}"
     register: ec2
 
   # Use with_items to add each instances public IP to a new hostgroup for use in the next play.

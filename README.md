@@ -31,9 +31,26 @@ To configure an EC2 instance, run the following:
 Deploying project
 ============================
 
-Install capistrano:
+Set environment variables:
 
-	gem install capistrano
+	export AWS_ACCESS_KEY_ID = "your aws access key id"
+	export AWS_SECRET_ACCESS_KEY = "your aws secret access key"
+
+Install capistrano ( Currently it works with version 3.2.1 )
+
+	gem install capistrano --version=3.2.1
+	
+Install Cap-EC2
+
+	gem install cap-ec2
+	
+Install Capistrano NPM
+
+	gem install capistrano-npm
+	
+Install Capistrano Deploy Tags
+
+	gem install capistrano-deploytags
 
 Check agent forwarding:
 		
@@ -53,14 +70,9 @@ To deploy the project, run the following:
 
 		cap staging deploy
 		
+To deploy to more regions change seting in config/ec2.yml, you could add more regions you want to deploy to:
 
-
-
-
-
-
-
-
-
-
-
+	regions:
+   - 'eu-west-1'
+		
+For more information on deployment with Capistrano take a look at http://capistranorb.com/documentation

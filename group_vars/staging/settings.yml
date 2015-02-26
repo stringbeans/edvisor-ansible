@@ -3,11 +3,26 @@ security_group: staging-edvisor
 zone: eu-west-1a
 subnet: subnet-91e22bc8
 instance_type: t2.micro
+
+# Instance Tags
 env: staging
-deploy_env: "{{ security_group }}"
+role: api
+project: "edvisor"
 
 edvisor_deploy_user: deploy
 edvisor_deploy_group: deploy
+
+# IP Tables
+edvisor_iptables_enabled: yes
+edvisor_iptables_logging: yes
+edvisor_iptables_deny_all: yes
+edvisor_iptables_allowed_tcp_ports: [22, 3000, 3306]
+
+# System limits
+edvisor_limits_enabled: yes
+edvisor_limits_path: "/etc/security/limits.d/tune.conf"
+edvisor_limits_limits:
+  - "*  -    nofile    65535"
 
 # NodeJs
 edvisor_nvm_version: v0.17.3
