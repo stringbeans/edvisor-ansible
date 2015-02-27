@@ -1,3 +1,55 @@
+Configuration variables
+============================
+
+Configuration variables are stored in group_vars. For specific stage under stage name like staging/production.
+Settings variables are stored in stage_name/settings.yml, where stage_name is staging or production.
+
+Encrypted variables are stored in stage_name/encrypted/file_name.yml. Only datasource variables are stored here like
+db username, hosts, passwords, certificates, api keys etc..
+Naming for those variables should be like vault_edvisor_var_name. With this we know from templates that this variable
+is encrypted with ansible-vault.
+
+Edit encrypted files:
+
+	ansible-vault edit /path/to/file
+	
+Change password for encrypted files:
+
+	ansible-vault rekey /path/to/file
+
+or for more files:
+
+	ansible-vault rekey /path/to/file /path/to/file2
+	
+	
+Structure
+============================
+
+Ansible:
+
+Ansible is used for instance creation/configuration and initial deployment on AWS.
+
+- group_vars: here are stored configuration variables
+- hosts: is for host configuration, for configuration of instance/deployment with capistrano the hosts are get from aws
+- plugins: here is ansible plugin ec2 file for geting amazon instances
+- roles: here are custom roles like common, deploy, pm2 and staging roles like staging/production
+
+deployment templates 
+
+	- config.json
+	- datasources.json
+	
+are stored in roles/deploy/templates.
+
+Capistrano:
+
+Capistrano is used for project deployments to staging/production environments.
+
+There is Capfile.rb and config folder files which belongs to capistrano.
+
+Deploy tasks are stored in config/deploy.rb
+Stages for capistrano are stored in config/deploy folder and named like staging.rb / capistrano.rb
+Capistrano get instances ids from AWS. It used cap-ec2 capistrano package.
 
 Install Roles
 ============================
@@ -6,6 +58,10 @@ Please take a look at: https://galaxy.ansible.com
 The required roles could be install with:
 	
 		ansible-galaxy install -r requirements.yml
+		
+When adding additional roles you need to force installation, because roles allready exists:
+
+		sudo ansible-galaxy install --force -r requirements.yml
 
 	
 Creation of EC2 Instance

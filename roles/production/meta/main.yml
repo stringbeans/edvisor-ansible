@@ -1,0 +1,32 @@
+---
+dependencies:
+  - { role: common }
+  - { role: mivok0.users }
+  - { role: Stouts.iptables,
+      iptables_enabled: "{{ edvisor_iptables_enabled }}",
+      iptables_logging: "{{ edvisor_iptables_logging }}",
+      iptables_deny_all: "{{ edvisor_iptables_deny_all }}",
+      iptables_allowed_tcp_ports: "{{ edvisor_iptables_allowed_tcp_ports }}"
+    }
+  - { role: Stouts.limits,
+      limits_enabled: "{{ edvisor_limits_enabled }}",
+      limits_path: "{{ edvisor_limits_path }}",
+      limits_limits: "{{ edvisor_limits_limits }}"
+    }
+  - { role: leonidas.nvm,
+      nvm: {
+        user: "{{edvisor_deploy_user}}",
+        version: "{{edvisor_nvm_version}}",
+        node_version: "{{edvisor_nvm_node_version}}",
+      }
+    }
+  - { role: deploy }
+  - {
+      role: pm2,
+      user: "{{ edvisor_deploy_user }}",
+      pm2_apps: "{{ edvisor_pm2_apps }}",
+      pm2_startup: "{{ edvisor_pm2_startup }}",
+      pm2_service_enabled: "{{ edvisor_pm2_service_enabled }}",
+      pm2_service_state: "{{ edvisor_pm2_service_state }}",
+      pm2_version: "{{ edvisor_pm2_version }}"
+    }

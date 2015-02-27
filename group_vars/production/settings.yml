@@ -1,11 +1,11 @@
 ---
-security_group: staging-edvisor
+security_group: production-edvisor
 zone: eu-west-1a
 subnet: subnet-91e22bc8
 instance_type: t2.micro
 
 # Instance Tags
-env: staging
+env: production
 role: api
 project: "edvisor"
 
@@ -53,10 +53,10 @@ edvisor_app_port: 3000
 edvisor_app_url: "http://localhost:{{ edvisor_app_port }}/"
 
 # AWS S3
-edvisor_aws_s3_bucket: "edvisorio-dev"
+edvisor_aws_s3_bucket: "edvisorio-pro"
 
 # AWS S3 Images
-edvisor_aws_s3_images_bucket_url: "https://s3-us-west-2.amazonaws.com/edvisorio-dev/"
+edvisor_aws_s3_images_bucket_url: "https://s3-us-west-2.amazonaws.com/edvisorio-pro/"
 edvisor_aws_s3_images_bucket_region: "us-west-2"
 edvisor_aws_s3_images_bucket_path: "images/"
 

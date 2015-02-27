@@ -64,9 +64,35 @@
         version={{ edvisor_project_git_repo_version }}
         accept_hostkey=yes
 
+
+- name: Capistrano | get current revision
+  shell: cd {{ release_path.stdout }} && git log --pretty=format:'%h' -n 1
+  register: git_revision
+
+- name: Capistrano | create REVISION file
+  file: >
+        path={{ release_path.stdout }}/REVISION
+        state=touch
+        mode=0755
+
+- name: Capistrano | copy content of get current revision command to file
+  shell: echo {{ git_revision.stdout }} > {{ release_path.stdout }}/REVISION
+
+- name: Capistrano | Move .git to repo folder
+  command: creates="{{ edvisor_project_root }}/repo" mv {{ release_path.stdout }}/.git {{ edvisor_project_root }}/repo
+
 - name: Capistrano | Fix directory permissions to deploy user
   file: >
         path={{ release_path.stdout }}
+        owner={{ edvisor_deploy_user }}
+        group={{ edvisor_deploy_group }}
+        mode=755
+        state=directory
+        recurse=yes
+
+- name: Capistrano | Fix repo directory permissions to deploy user
+  file: >
+        path={{ edvisor_project_root }}/repo
         owner={{ edvisor_deploy_user }}
         group={{ edvisor_deploy_group }}
         mode=755
@@ -104,13 +130,13 @@
 - name: Capistrano | create symlink for pm2.json to current release directory
   file: >
         src={{ edvisor_project_root_shared_server }}/pm2.json
-        path={{ release_path.stdout }}/pm2.json
+        path={{ release_path.stdout }}/server/pm2.json
         owner={{ edvisor_deploy_user }}
         group={{ edvisor_deploy_group }}
         mode=0755
         state=link
 
-- name: Capistrano | copye package.json to shared directory
+- name: Capistrano | copy package.json to shared directory
   shell: rsync -ci {{ release_path.stdout }}/package.json {{ edvisor_project_root_shared }}/package.json
 
 - name: Capistrano | Install packages based on package.json using the npm installed

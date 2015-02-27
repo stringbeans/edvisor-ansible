@@ -1,0 +1,8 @@
+---
+users:
+  - username: deploy
+    name: deploy user
+    uid: 1002
+    groups: ['deploy']
+    ssh_key:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCursEPbShXQDsPQLYEziGQHfTCLtWVldFkgi5gWwjy2erMDSO3uKhuj0zIC4QrXggNHcOM+HELII96AtJBkdr2ZU0rSe77BKRbWNt68+HhIPBr84US7MAdqX/X8D15iht8rftbPaS47DtDe6MoSOckMw53FsQAoI0m97ka3TrxQsOC3PMqY7xnBf76RlIeTbl1aO2baSqeu4WCYvE7xcOqDgaOb5cDaBlKnSUdO+rTY3nxE2WX8Hh/6OuZva5kJ8qrSp/3lSkSAZYf+cElB5hWTBvTBTGraZWsTwVMVS+wReavZuEPojUdb01WE7daitjCtNYk40zG2xkJx8U6vg6t"
