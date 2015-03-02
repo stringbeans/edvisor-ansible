@@ -46,7 +46,7 @@ namespace :deploy do
     desc 'PM2 List'
     task :list do
             on roles(:api) do
-                execute "PATH=#{fetch(:path)} pm2 sapi list"
+                execute "PATH=#{fetch(:path)} pm2 list"
             end
     end
 

@@ -84,8 +84,8 @@ To configure an EC2 instance, run the following:
 		ansible-playbook configure-instance.yml -i plugins/inventory/ec2.py --extra-vars "role=staging env=staging hosts=tag_Stages_staging" --ask-vault-pass
 		
 		
-Deploying project
-============================
+Configuration for project deployment
+========================================================
 
 Set environment variables:
 
@@ -121,6 +121,11 @@ add key identity:
 To check, if its working:
 
 		cap staging deploy:check
+		
+Deployment
+========================================================
+
+Deploy:
 
 To deploy the project, run the following:
 
@@ -130,5 +135,69 @@ To deploy to more regions change seting in config/ec2.yml, you could add more re
 
 	regions:
    - 'eu-west-1'
+   
+Rollback:
+
+		cap staging deploy:rollback
+		
+PM2 commands:
+
+Restarting process manager:
+
+		cap staging deploy:restart
+		
+Pm2 status, get status of processes on all hosts:
+
+		cap staging deploy:status
+		
+Pm2 lists, it lists running processes on all hosts:
+
+		cap staging deploy:list
+		
+Pm2 logs, it streams logs files:
+
+		cap staging deploy:logs
+		
+Pm2 kill, it kills deamon. It should be used with caution on production.
+
+		cap staging deploy:kill
+		
+Pm2 start. If you kill processes you could again start them with:
+		
+		cap staging deploy:start
 		
 For more information on deployment with Capistrano take a look at http://capistranorb.com/documentation
+
+
+Configure Elastic Load Balancer
+========================================================
+
+On Aws:
+
+More information on: http://aws.amazon.com/elasticloadbalancing/getting-started/
+
+Going to AWS console and then choose EC2 -> Load balancers -> Create load balancer.
+
+
+1. Initial LB config:
+
+- Add load balancer name
+- Create LB inside VPC
+- Add listener configuration
+	- Load balancer protocol ( http or https ). In case of https you need to add certificates.
+	- Load balancer port ( 80 or 443 )
+	- Instance protocol and instance port. If you run instances in private network, then you could use port 80 with ssl.
+	- Choose instances port. Instances are configurd that api listens on port 3000.
+	
+	
+2. Add healthcheck
+	- Configure healtcheck. More information you could find on AWS Load Balancer documentation
+	
+3. Add instances
+	- You could add instances to load balancer.
+	
+	
+	
+After you created loadbalancer you need to add load balancer DNS name to A Record for domain or subdomain in case of staging.
+
+
