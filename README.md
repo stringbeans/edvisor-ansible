@@ -1,3 +1,13 @@
+Install Ansible
+=====================
+
+Installation of Ansible is required. You could find information how to install Ansible
+for different platforms on following official website.
+
+	http://docs.ansible.com/intro_installation.html
+
+If you need to install
+
 Configuration variables
 ============================
 
@@ -51,7 +61,7 @@ Deploy tasks are stored in config/deploy.rb
 Stages for capistrano are stored in config/deploy folder and named like staging.rb / capistrano.rb
 Capistrano get instances ids from AWS. It used cap-ec2 capistrano package.
 
-Install Roles
+Install Roles using Ansible Galaxy
 ============================
 Please take a look at: https://galaxy.ansible.com
 
@@ -62,6 +72,28 @@ The required roles could be install with:
 When adding additional roles you need to force installation, because roles allready exists:
 
 		sudo ansible-galaxy install --force -r requirements.yml
+		
+
+
+Create AWS Subnet
+============================
+
+To create AWS Subnet you need to go to AWS Console -> VPC -> Subnets-> Create subnet.
+
+Create AWS Security Group
+============================
+
+For creation of AWS Security Group you need to go to AWS Console -> EC2 -> Network & Security -> Security Groups
+	-> Create Security Group
+	
+Its good to separate production and staging security group, so you could name it like
+edvisor-staging and edvisor-production.
+
+Create AWS Network Interface
+============================
+
+Create AWS Network interface go to AWS Console -> EC2 -> Network & Security -> Network Interfaces
+	-> Create network interface
 
 	
 Creation of EC2 Instance
@@ -75,6 +107,8 @@ It asks for vault password. Enter what is the password and it should continue wi
 example uses staging for host creation.
 
 It also deploys last release so its needed to check agent forwarding and add key identity per instructions under Deploying project.
+
+If you would like to change region for instance you could change it via --extra-vars "env=staging region=us-east-1" or in group_vars/settings.yml.
 
 Configure EC2 Instance
 ============================
@@ -124,6 +158,11 @@ To check, if its working:
 		
 Deployment
 ========================================================
+
+Deployment user is stored in group_vars/staging or production/users.yml called deploy. If you need
+to add public ssh-key for different developers/deployers you could add there in the ssh-key list.
+If there is need of deletion of user you need to remove it and run configure-ec2-instance for specific stage
+environment where you want to delete user.
 
 Deploy:
 
