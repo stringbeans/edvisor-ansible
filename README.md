@@ -81,7 +81,7 @@ Configure EC2 Instance
 
 To configure an EC2 instance, run the following:
 
-		ansible-playbook configure-instance.yml -i plugins/inventory/ec2.py --extra-vars "role=staging env=staging hosts=tag_Name_staging" --ask-vault-pass
+		ansible-playbook configure-instance.yml -i plugins/inventory/ec2.py --extra-vars "role=staging env=staging hosts=tag_Stages_staging" --ask-vault-pass
 		
 		
 Deploying project
