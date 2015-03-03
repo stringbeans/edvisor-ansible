@@ -126,21 +126,14 @@ Set environment variables:
 	export AWS_ACCESS_KEY_ID = "your aws access key id"
 	export AWS_SECRET_ACCESS_KEY = "your aws secret access key"
 
-Install capistrano ( Currently it works with version 3.2.1 )
+Install bundler:
 
-	gem install capistrano --version=3.2.1
-	
-Install Cap-EC2
+		gem install bundler
+		
+Install gems from the Gemfile with:
 
-	gem install cap-ec2
-	
-Install Capistrano NPM
+		bundler install
 
-	gem install capistrano-npm
-	
-Install Capistrano Deploy Tags
-
-	gem install capistrano-deploytags
 
 Check agent forwarding:
 		
@@ -148,7 +141,7 @@ Check agent forwarding:
 
 		eval "$(keychain -q --eval --agents ssh)"
 		
-add key identity:
+Add key identity:
 	
 		ssh-add /path/to/key
 		
